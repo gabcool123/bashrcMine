@@ -66,14 +66,11 @@ if [ "$color_prompt" = yes ]; then
 	prompt_color='\[\033[1;31m\]'
 	path_color='\[\033[1;34m\]'
     fi
-    export PS1="\e[1;33m[\t] \e[1;32m\u\e[1;33m@\e[1;31m\h \e[1;33m-> \e[0;36m\w \e[1;33m{​\e[1;31m\$?\e[1;33m}​\n# \[$(tput sgr0)\]"
-
 	PS1='\e[1;33m[\t] \e[1;32m\u\e[1;33m@\e[1;31m\h \e[1;33m-> \e[0;36m\w \e[1;33m{​\e[1;31m$?\e[1;33m}​\n# \[$(tput sgr0)\]'
     unset prompt_color path_color
 else
-    export PS1="\e[1;33m[\t] \e[1;32m${debian_chroot:+($debian_chroot)}\u\e[1;33m@\e[1;31m\h \e[1;33m-> \e[0;36m\w \e[1;33m{​\e[1;31m\$?\e[1;33m}​\n# \[$(tput sgr0)\]"
+    PS1="\e[1;33m[\t] \e[1;32m${debian_chroot:+($debian_chroot)}\u\e[1;33m@\e[1;31m\h \e[1;33m-> \e[0;36m\w \e[1;33m{​\e[1;31m\$?\e[1;33m}​\n# \[$(tput sgr0)\]"
 
-	PS1='\e[1;33m[\t] \e[1;32m\u\e[1;33m@\e[1;31m\h \e[1;33m-> \e[0;36m\w \e[1;33m{​\e[1;31m$?\e[1;33m}​\n# \[$(tput sgr0)\]'
 fi
 unset color_prompt force_color_prompt
 
@@ -92,12 +89,16 @@ if [ -x /usr/bin/dircolors ]; then
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
-
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
     alias diff='diff --color=auto'
     alias ip='ip --color=auto'
+    alias .4='cd ../../../..'
+    alias .3='cd ../../..'
+    alias .2='cd ../..'
+    alias .1='cd ..'
+    alias home='cd /home/ad.som.ca/gmorin'
 
     export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
     export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
@@ -113,7 +114,7 @@ fi
 
 # some more ls aliases
 alias ll='ls -l'
-alias la='ls -A'
+alias la='ls -la'
 alias l='ls -CF'
 
 # Alias definitions.
@@ -136,9 +137,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
-tput setaf 1; cat<<'EOF'
-                  
+randomText=("END OF SUPPORT = NEVER" "WHY NOT !!!" "KALI IS STRONG" "YOU KNOW WHAT IM KALI" "KALI + 1 = KALI++" "Hack the society FSOCIETY...CALCULATION")
 
+randomColor="\e[3$(( $RANDOM * 6 / 32767 + 1 ))m"
+randomPenguinColor="$(($RANDOM % 8))"
+tput setaf ${randomPenguinColor}; cat<<'EOF'
+                  
            _..._
          .'     '.
         /  _   _  \
@@ -153,10 +157,9 @@ tput setaf 1; cat<<'EOF'
      )     )'--'(     (
       '---`      `---`  
 	
-	
-		KALI LINUX 2.0
-	END OF SUPPORT = NEVER
-
-
 EOF
+reset=$(tput sgr0)
+arraylen=${#randomText[@]}
+ran=$(($RANDOM % $arraylen))
+echo -e "${randomColor}${randomText[$ran]}${reset}"
 tput sgr0
